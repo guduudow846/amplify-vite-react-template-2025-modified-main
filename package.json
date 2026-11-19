@@ -9,10 +9,17 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "overrides": {
+    "@aws-amplify/core": "6.15.1"
+  },
   "dependencies": {
     "@aws-amplify/ui-react": "~6.13.2",
+    "@aws-sdk/client-iot": "^3.1169.0",
+    "@aws-sdk/client-iot-data-plane": "^3.1169.0",
     "aws-amplify": "~6.15.10",
+    "moment": "^2.30.1",
     "react": "~18.3.1",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "~18.3.1"
   },
   "engines": {
@@ -20,8 +27,8 @@
     "npm": ">= 10.8.0"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "~1.19.0",
-    "@aws-amplify/backend-cli": "~1.8.1",
+    "@aws-amplify/backend": "^1.25.1",
+    "@aws-amplify/backend-cli": "^1.10.0",
     "@eslint/compat": "~2.0.1",
     "@eslint/eslintrc": "~3.3.3",
     "@eslint/js": "~9.39.2",
@@ -37,9 +44,5 @@
     "globals": "~17.0.0",
     "typescript": "~5.9.3",
     "vite": "~7.3.1"
-  },
-  "allowScripts": {
-    "esbuild@0.25.12": true,
-    "esbuild@0.27.2": true
   }
 }
