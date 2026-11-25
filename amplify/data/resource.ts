@@ -29,7 +29,7 @@ const schema = a.schema({
     .identifier(['device_id'])
     .authorization((allow) => [
       allow.owner(),
-      allow.publicApiKey(),
+      
     ]),
 
   Telemetry: a
@@ -44,7 +44,7 @@ const schema = a.schema({
     //.identifier(['device_id'])
     .authorization((allow) => [
       allow.owner(),
-      allow.publicApiKey(),
+      
     ]),
 
   UpdateDeviceShadow: a
