@@ -1,67 +1,65 @@
-# 🌡️ IoT Weather & Environment Monitoring System
+# 🌡️ IoT – Väder- och miljöövervakningssystem
 
-### Smart Environmental Monitoring with ESP32, AWS Cloud, SMHI & Discord
+### Smart miljöövervakning med ESP32, AWS Cloud, SMHI och Discord
 
-An end-to-end IoT project that connects physical sensors to the cloud and transforms environmental data into useful information through a web dashboard.
-
-<p align="center">
+Ett komplett IoT-projekt som kopplar samman fysiska sensorer med molntjänster och omvandlar insamlad miljödata till användbar information genom en webbaserad dashboard.
 
 **ESP32 · MQTT · AWS IoT Core · Lambda · Amplify · SMHI · Discord**
 
-</p>
+---
+
+## 📌 1. Om projektet
+
+Detta projekt har utvecklats för att visa hur en IoT-lösning kan hjälpa fastighetsägare att övervaka inomhusmiljön på distans.
+
+Systemet samlar in temperatur- och luftfuktighetsvärden med hjälp av en DHT11-sensor som är ansluten till en Arduino Nano ESP32.
+
+Mätvärdena skickas trådlöst via Wi-Fi med kommunikationsprotokollet MQTT till AWS IoT Core. Därefter behandlas informationen av AWS Lambda och lagras i AWS Amplify Data.
+
+Projektet integrerar även väderobservationer från SMHI:s öppna API. Informationen presenteras i en webbaserad dashboard där användaren kan se insamlade mätvärden.
+
+Systemet har dessutom en Discord-integration som kan skicka meddelanden via en webhook.
+
+### ✨ Projektets viktigaste funktioner
+
+- 🌡️ Mätning av temperatur och luftfuktighet.
+- 📡 Trådlös kommunikation via Wi-Fi och MQTT.
+- ☁️ Databehandling med AWS molntjänster.
+- 🗄️ Lagring av mätdata i AWS Amplify Data.
+- 🌍 Hämtning av externa väderdata från SMHI.
+- 📊 Webbaserad dashboard byggd med React och Vite.
+- 💬 Meddelanden via Discord Webhooks.
+- 🔐 Användarautentisering och behörighetskontroll med Amazon Cognito och Amplify.
 
 ---
 
-## 📌 About the Project
+## 🎯 2. Verksamhetsbehov och problemformulering
 
-This project was developed to demonstrate how an IoT solution can help property owners monitor indoor environmental conditions remotely.
+Fastighetsägare behöver ett enkelt sätt att övervaka inomhusmiljön i sina byggnader.
 
-The system collects temperature and humidity readings using a DHT11 sensor connected to an Arduino Nano ESP32. The measurements are sent over Wi-Fi using MQTT to AWS IoT Core, processed by AWS Lambda, and stored in AWS Amplify Data.
+Temperatur och luftfuktighet påverkar bland annat komforten och byggnadens inomhusmiljö. Utan ett automatiserat övervakningssystem kan det vara svårt att upptäcka förändringar utan att fysiskt kontrollera varje rum.
 
-The project also integrates weather observations from the SMHI Open Data API and provides a web-based dashboard where collected information can be viewed.
+Projektet erbjuder en lösning där miljömätningar samlas in automatiskt, lagras i molnet och kan visas genom en webbaserad applikation.
 
-Discord webhook integration provides an additional way to receive system messages.
+**Projektets huvudsakliga mål är att:**
 
-### ✨ Project Highlights
-
-- 🌡️ Temperature and humidity monitoring.
-- 📡 Wireless communication using Wi-Fi and MQTT.
-- ☁️ Cloud processing using AWS services.
-- 🗄️ Centralized data storage using AWS Amplify Data.
-- 🌍 External weather data from SMHI.
-- 📊 Web dashboard built with React and Vite.
-- 💬 Discord webhook notifications.
-- 🔐 Authentication and access control using Amazon Cognito and Amplify authorization.
+- Övervaka temperatur och luftfuktighet på distans.
+- Lagra mätvärden för historisk analys.
+- Jämföra sensordata med externa väderobservationer.
+- Visa insamlade data i en användarvänlig dashboard.
+- Möjliggöra kommunikation och meddelanden via Discord.
 
 ---
 
-## 🎯 1. Business Need
+## 🏗️ 3. Systemarkitektur
 
-Property owners need a simple way to understand the environmental conditions inside their buildings.
+Lösningen består av en fysisk sensor, trådlös kommunikation, AWS-molntjänster, extern API-integration och en webbaserad dashboard.
 
-Temperature and humidity can affect indoor comfort and building conditions. Without remote monitoring, property owners may need to physically inspect rooms to understand what is happening.
-
-This project provides a solution where environmental measurements can be collected automatically, stored in the cloud, and accessed through a web application.
-
-**The main objectives are:**
-
-- Monitor indoor temperature and humidity remotely.
-- Store measurements for historical analysis.
-- Compare indoor sensor readings with external weather information.
-- Provide access to collected data through a dashboard.
-- Support notifications through Discord.
-
----
-
-## 🏗️ 2. System Architecture
-
-The solution consists of a physical sensor, wireless communication, AWS cloud services, external API integration, and a web dashboard.
-
-### Architecture Diagram
+### Arkitekturdiagram
 
 ```mermaid
 flowchart TD
-    A[DHT11 Sensor] --> B[Arduino Nano ESP32]
+    A[DHT11-sensor] --> B[Arduino Nano ESP32]
     B -->|Wi-Fi / MQTT| C[AWS IoT Core]
     C --> D[AWS IoT Rule]
     D --> E[Lambda: graphqlIoTCoreTelemetry]
@@ -76,36 +74,36 @@ flowchart TD
     L[Amazon Cognito] --> G
 ```
 
-### Data Flow
+### Så fungerar dataflödet
 
-1. The DHT11 sensor measures temperature and humidity.
-2. The Arduino Nano ESP32 reads the sensor values.
-3. The ESP32 publishes the measurements using MQTT over Wi-Fi.
-4. AWS IoT Core receives the messages.
-5. An AWS IoT Rule forwards the data to a Lambda function.
-6. Lambda processes the incoming data and stores it in Amplify Data.
-7. The React dashboard retrieves and displays the stored measurements.
-8. A separate Lambda function retrieves weather observations from SMHI.
-9. Discord can receive messages through a configured webhook.
+1. DHT11-sensorn mäter temperatur och luftfuktighet.
+2. Arduino Nano ESP32 läser av sensorns värden.
+3. ESP32 skickar mätvärdena via Wi-Fi med MQTT.
+4. AWS IoT Core tar emot meddelandena.
+5. En AWS IoT Rule vidarebefordrar informationen till en Lambda-funktion.
+6. Lambda behandlar informationen och sparar den i Amplify Data.
+7. React-dashboarden hämtar och visar de lagrade mätvärdena.
+8. En separat Lambda-funktion hämtar väderobservationer från SMHI.
+9. Discord kan ta emot systemmeddelanden genom en konfigurerad webhook.
 
 ---
 
-## 🔌 3. Hardware and Communication
+## 🔌 4. Hårdvara och kommunikation
 
-### Hardware Components
+### Hårdvarukomponenter
 
-| Component | Purpose |
+| Komponent | Funktion |
 |---|---|
-| Arduino Nano ESP32 | Main IoT microcontroller |
-| DHT11 | Temperature and humidity sensor |
-| Wi-Fi | Wireless internet connection |
-| USB connection | Programming and power |
+| Arduino Nano ESP32 | Mikrokontroller och huvudenhet |
+| DHT11 | Sensor för temperatur och luftfuktighet |
+| Wi-Fi | Trådlös internetanslutning |
+| USB | Programmering och strömförsörjning |
 
-### Sensor Communication
+### Kommunikation mellan sensor och gateway
 
-The DHT11 sensor is connected to the Arduino Nano ESP32.
+DHT11-sensorn är ansluten till Arduino Nano ESP32.
 
-The ESP32 reads the measurements and sends them to AWS IoT Core using MQTT.
+ESP32 läser av mätvärdena och skickar informationen till AWS IoT Core med hjälp av MQTT.
 
 **MQTT Topic:**
 
@@ -113,7 +111,7 @@ The ESP32 reads the measurements and sends them to AWS IoT Core using MQTT.
 esp32-hassan/telemetry
 ```
 
-**Example MQTT Message:**
+**Exempel på MQTT-meddelande:**
 
 ```json
 {
@@ -122,255 +120,42 @@ esp32-hassan/telemetry
 }
 ```
 
-MQTT is a lightweight publish/subscribe communication protocol commonly used in IoT systems.
+MQTT är ett lättviktigt kommunikationsprotokoll som ofta används inom IoT.
 
-It allows devices to publish messages without needing a direct connection to the application that consumes the data.
+Protokollet bygger på en publish/subscribe-modell. Det innebär att enheter kan publicera meddelanden till ett ämne utan att behöva kommunicera direkt med den applikation som tar emot informationen.
 
 ---
 
-## ☁️ 4. AWS Cloud Infrastructure
+## ☁️ 5. AWS – Molninfrastruktur
 
-The project uses several AWS services to process, store, secure, and deliver IoT data.
+Projektet använder flera AWS-tjänster för att ta emot, behandla, lagra och presentera IoT-data.
 
-| AWS Service | Responsibility |
+| AWS-tjänst | Användningsområde |
 |---|---|
-| AWS IoT Core | Receives MQTT messages |
-| AWS IoT Rules | Routes incoming sensor data |
-| AWS Lambda | Processes telemetry and weather data |
-| AWS Amplify Data | Stores and provides access to application data |
-| Amazon Cognito | User authentication |
-| Amazon EventBridge | Scheduled SMHI data collection |
-| Amazon DynamoDB | Tested as an alternative storage approach |
+| AWS IoT Core | Tar emot MQTT-meddelanden från ESP32 |
+| AWS IoT Rules | Vidarebefordrar inkommande sensordata |
+| AWS Lambda | Behandlar sensordata och väderinformation |
+| AWS Amplify Data | Lagrar och tillhandahåller applikationsdata |
+| Amazon Cognito | Hanterar användarautentisering |
+| Amazon EventBridge | Schemalägger insamling av SMHI-data |
+| Amazon DynamoDB | Har testats som ett alternativt lagringssystem |
 
-### AWS Lambda Functions
+### AWS Lambda-funktioner
 
-The project uses Lambda functions for different tasks:
+Projektet använder flera Lambda-funktioner för olika uppgifter:
 
-- `graphqlIoTCoreTelemetry` – processes ESP32 telemetry and supports Discord webhook messages.
-- `graphqlIoTCoreStatus` – processes device status updates.
-- `pollSmhi` – retrieves weather observations from SMHI and stores them in Amplify Data.
+- `graphqlIoTCoreTelemetry` – behandlar ESP32-mätningar och stöder Discord-meddelanden.
+- `graphqlIoTCoreStatus` – hanterar statusuppdateringar från enheter.
+- `pollSmhi` – hämtar väderobservationer från SMHI och sparar dem i Amplify Data.
 
-This serverless approach reduces the need to manage dedicated servers.
-
----
-
-## 🌍 5. External API Integration – SMHI
-
-The system integrates with the **SMHI Open Data API** to retrieve external weather observations.
-
-A Lambda function retrieves temperature measurements from SMHI weather station `72420`.
-
-The collected weather data is stored in Amplify Data and can be viewed in the dashboard.
-
-### Why SMHI?
-
-SMHI provides external weather observations that can be used alongside the project's own sensor readings.
-
-This creates opportunities to compare indoor environmental measurements with outdoor weather conditions.
+Serverless-arkitekturen minskar behovet av att själv administrera och underhålla servrar.
 
 ---
 
-## 💬 6. Discord Integration
+## 🌍 6. Integration med SMHI:s API
 
-The project includes Discord webhook integration.
+Systemet använder **SMHI Open Data API** för att hämta externa väderobservationer.
 
-The Lambda functions can send telemetry and device-status messages to a configured Discord channel.
+En Lambda-funktion hämtar temperaturmätningar från SMHI:s väderstation med stations-ID `72420`.
 
-This provides an additional communication channel where system information can be received without opening the dashboard.
-
-**Example workflow:**
-
-```text
-ESP32 → AWS IoT Core → Lambda → Discord Webhook
-```
-
-Webhook URLs are treated as secrets and are not included in this repository.
-
----
-
-## 📊 7. Data Storage and Visualization
-
-An important part of this project is the separation between data storage and data visualization.
-
-### Data Storage
-
-AWS Amplify Data provides the GraphQL data layer used to store:
-
-- Device information.
-- Device identifiers.
-- Timestamps.
-- Temperature readings.
-- Humidity readings when available.
-- Owner information.
-
-Amazon DynamoDB was also tested separately as an alternative way to store IoT measurements.
-
-### Data Visualization
-
-The web application is developed using:
-
-- React
-- Vite
-- AWS Amplify
-- GraphQL
-- Amazon Cognito
-
-The dashboard retrieves stored telemetry and presents it in a user-friendly interface.
-
-**Storage is responsible for keeping the data, while visualization is responsible for presenting the data to users.**
-
----
-
-## 🔐 8. Security
-
-Security is important because IoT devices communicate with cloud services and transmit environmental information.
-
-The project includes the following security measures:
-
-- Amazon Cognito authentication for dashboard users.
-- Owner-based authorization for Devices and Telemetry data.
-- IAM permissions for Lambda functions accessing Amplify Data.
-- AWS IoT Core for MQTT communication.
-- HTTPS connections to external APIs and webhooks.
-- Public API-key access rules removed from the Devices and Telemetry models.
-- Webhook URLs kept private and excluded from public documentation.
-
-### Security Considerations
-
-For a larger deployment, additional security improvements could include:
-
-- Strong device identity and certificate lifecycle management.
-- More detailed IAM least-privilege policies.
-- Validation of incoming device messages.
-- Monitoring and auditing of access.
-- Secure secret management for external integrations.
-
----
-
-## 📈 9. Scalability
-
-The architecture is based on managed and serverless cloud services.
-
-This makes it possible to expand the solution without redesigning the entire system.
-
-### Possible Scaling Strategy
-
-**More IoT Devices**
-
-Additional ESP32 devices can be registered using unique device identifiers.
-
-**Cloud Processing**
-
-AWS IoT Core can receive messages from multiple devices, while Lambda functions process incoming events.
-
-**Centralized Storage**
-
-Amplify Data provides a central data layer for device information and measurements.
-
-**Dashboard Expansion**
-
-The React dashboard can be extended to display multiple devices, historical readings, and additional environmental measurements.
-
-### Future Scalability Improvements
-
-For a larger deployment, the architecture could be improved with:
-
-- Amazon SQS for message buffering.
-- Improved error handling and retry mechanisms.
-- CloudWatch monitoring and alarms.
-- Data-retention policies.
-- Optimized database queries.
-- Controlled Lambda concurrency.
-
-These improvements would help support a larger number of connected devices and higher message volumes.
-
----
-
-## 🤖 10. Future Development and AI Opportunities
-
-The project provides a foundation for additional IoT functionality.
-
-Possible future improvements include:
-
-- Adding more environmental sensors.
-- Configurable temperature and humidity thresholds.
-- Automatic alerts when measurements exceed configured limits.
-- More detailed historical charts.
-- Predictive analysis of environmental conditions.
-- Machine learning for detecting unusual temperature and humidity patterns.
-
-For example, a future machine-learning model could analyze historical measurements and identify unusual changes that may indicate ventilation or environmental problems.
-
-These AI capabilities are future possibilities and are not currently implemented.
-
----
-
-## 🧪 11. Testing and Verification
-
-The following integrations have been tested during development:
-
-| Feature | Verification |
-|---|---|
-| ESP32 sensor telemetry | Temperature and humidity visible in dashboard |
-| AWS IoT Core | MQTT telemetry routed through IoT Rule |
-| AWS Lambda | Telemetry processing tested |
-| Amplify Data | Sensor records displayed in dashboard |
-| SMHI integration | Weather station data displayed in dashboard |
-| Discord integration | Webhook message successfully received |
-| Authentication | Dashboard login tested |
-| Data authorization | Owner-based authorization deployed |
-
----
-
-## 🛠️ 12. Technologies Used
-
-| Category | Technology |
-|---|---|
-| Hardware | Arduino Nano ESP32 |
-| Sensor | DHT11 |
-| Communication | Wi-Fi, MQTT |
-| Cloud | AWS IoT Core |
-| Processing | AWS Lambda |
-| Data layer | AWS Amplify Data |
-| Authentication | Amazon Cognito |
-| Scheduling | Amazon EventBridge |
-| External API | SMHI Open Data |
-| Notifications | Discord Webhooks |
-| Frontend | React and Vite |
-| API | GraphQL |
-| Version control | Git and GitHub |
-
----
-
-## 🎓 13. Learning Outcomes
-
-Through this project, I have gained practical experience with:
-
-- Connecting physical sensors to an ESP32.
-- Establishing wireless IoT communication.
-- Understanding MQTT publish/subscribe architecture.
-- Configuring AWS IoT Core and IoT Rules.
-- Processing data using AWS Lambda.
-- Storing and retrieving cloud data.
-- Integrating external APIs.
-- Building a web dashboard for IoT visualization.
-- Implementing authentication and authorization.
-- Understanding scalability and security in cloud-based IoT systems.
-
----
-
-## 🏁 14. Conclusion
-
-The IoT Weather & Environment Monitoring System demonstrates how hardware, wireless communication, cloud services, external APIs, and web technologies can work together in a complete IoT solution.
-
-The project connects an ESP32 sensor to AWS IoT Core, processes measurements through Lambda, stores data in Amplify Data, retrieves weather observations from SMHI, and presents information through a React dashboard.
-
-It also demonstrates how cloud-based IoT solutions can be designed with security, scalability, and future development in mind.
-
-**This project is a practical demonstration of an end-to-end IoT architecture, from sensor to cloud to dashboard.**
-
----
-
-### 👨‍💻 Project Repository
-
-Developed as an IoT portfolio project using Arduino Nano ESP32, AWS Cloud Services, and React.
+Informationen lagras sedan i Amplify Data och kan
