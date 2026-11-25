@@ -326,9 +326,7 @@ ESP32-programmet finns i mappen `esp32/`.
 
 Hemligheter, privata nycklar och certifikat som inte ska delas är exkluderade från versionshanteringen med hjälp av `.gitignore`.
 
-**GitHub repository:**
 
-https://github.com/guduudow846/amplify-vite-react-template-2025-modified-main
 
 ---
 
