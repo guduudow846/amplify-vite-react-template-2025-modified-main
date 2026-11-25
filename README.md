@@ -217,18 +217,60 @@ Webhook-adressen lagras som konfiguration och ska inte publiceras i GitHub.
 
 ## 🔐 10. Säkerhet
 
-Säkerhet har beaktats i både kommunikationen mellan enheterna och åtkomsten till molntjänsterna.
+Säkerhet har implementerats på flera nivåer i IoT-systemet för att skydda kommunikationen mellan ESP32-enheten, AWS IoT Core och molntjänsterna.
 
-Viktiga säkerhetsåtgärder:
+### 10.1 Säker kommunikation och autentisering
 
-- ESP32 använder certifikat och TLS för anslutning till AWS IoT Core.
-- MQTT-kommunikationen sker via en krypterad anslutning.
+- ESP32 använder ett individuellt X.509-certifikat för autentisering mot AWS IoT Core.
+- MQTT-kommunikationen använder TLS-kryptering.
+- Enheten ansluter med ett specifikt klient-ID: `esp32-hassan`.
+- Privata nycklar, certifikat och andra hemligheter lagras lokalt och publiceras inte i GitHub.
+
+### 10.2 Begränsade IoT-behörigheter
+
+En separat AWS IoT-policy har skapats för ESP32-enheten:
+
+`ESP32-Hassan-SecurePolicy`
+
+Policyn följer principen om minsta möjliga behörighet (*Principle of Least Privilege*).
+
+Det innebär att enheten endast får utföra de kommunikationsåtgärder som behövs för projektet.
+
+Policyn begränsar behörigheterna till:
+
+- Anslutning med klient-ID `esp32-hassan`.
+- Publicering av sensordata till `esp32-hassan/telemetry`.
+- Publicering till relevanta AWS Device Shadow-ämnen.
+- Prenumeration på enhetens downlink-ämne och relevanta Shadow-svar.
+- Mottagning av meddelanden från de tillåtna ämnena.
+
+De tidigare testpolicyerna `AllowAllTest` och `esp32-hassan-Policy` har kopplats bort från ESP32-certifikatet. Därmed använder enheten den nya begränsade policyn.
+
+### 10.3 Åtkomstkontroll i AWS
+
 - Amazon Cognito används för användarinloggning.
-- Åtkomst till Devices och Telemetry begränsas med ägarbaserad behörighet.
-- Lambda-funktioner använder IAM-behörigheter för åtkomst till nödvändiga resurser.
-- Hemligheter och privata nycklar exkluderas från GitHub med `.gitignore`.
+- Amplify Data använder ägarbaserad åtkomstkontroll för modellerna Devices och Telemetry.
+- AWS Lambda-funktioner använder IAM-behörigheter för att komma åt nödvändiga resurser.
+- Offentlig API-nyckelbaserad åtkomst har tagits bort från Devices och Telemetry.
 
-Säkerheten kan förbättras ytterligare genom att begränsa IoT-policyer till specifika enheter och MQTT-topics samt genom att validera inkommande meddelanden.
+### 10.4 Säkerhetstest
+
+Efter att de gamla testpolicyerna kopplats bort genomfördes ett funktionstest med ESP32.
+
+Testresultatet visade att:
+
+- ESP32 kunde ansluta till AWS IoT Core.
+- Temperatur och luftfuktighet kunde publiceras via MQTT.
+- AWS Device Shadow svarade korrekt.
+- Dashboarden fortsatte att visa sensordata.
+
+Detta verifierar att enhetens centrala kommunikationsfunktioner fungerar med den begränsade IoT-policyn.
+
+### 10.5 Slutsats
+
+Genom certifikatbaserad autentisering, TLS-kryptering, IAM-behörigheter och begränsade IoT-policyer har systemets säkerhet förbättrats.
+
+Lösningen minskar risken för obehörig åtkomst och visar hur principen om minsta möjliga behörighet kan användas i en praktisk IoT-arkitektur.
 
 ---
 
@@ -269,6 +311,8 @@ Följande delar har testats under projektets utveckling:
 - Dashboarden visar inkommande sensordata.
 - SMHI-integrationen hämtar och visar temperaturdata.
 - Discord-integrationen har testats och skickat notifieringar.
+- ESP32 fungerar med den begränsade AWS IoT-policyn efter att testpolicyerna kopplats bort.
+- AWS Device Shadow har testats och svarat korrekt.
 
 ---
 
@@ -281,6 +325,10 @@ Repository innehåller bland annat ESP32-programmet, AWS Amplify-koden och proje
 ESP32-programmet finns i mappen `esp32/`.
 
 Hemligheter, privata nycklar och certifikat som inte ska delas är exkluderade från versionshanteringen med hjälp av `.gitignore`.
+
+**GitHub repository:**
+
+https://github.com/guduudow846/amplify-vite-react-template-2025-modified-main
 
 ---
 
