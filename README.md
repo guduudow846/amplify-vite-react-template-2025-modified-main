@@ -215,7 +215,6 @@ Användaren loggar in med Amazon Cognito innan skyddade data visas.
 
 Dashboarden visar aktuell temperatur och luftfuktighet från ESP32 och DHT11-sensorn.
 
-![IoT Dashboard](dashboard.png)
 
 <img width="947" height="435" alt="image" src="https://github.com/user-attachments/assets/a2b27c3f-0f40-4990-9fa9-ac03ef5c726f" />
 <img width="1236" height="786" alt="image" src="https://github.com/user-attachments/assets/19a3a6e7-0f87-400a-8b89-f1023f8d847e" />
