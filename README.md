@@ -164,6 +164,7 @@ På så sätt kan användaren jämföra inomhustemperaturen med utomhustemperatu
 
 ## 🗄️ 7. Databas och lagring
 
+
 Systemet använder AWS Amplify Data för att lagra och hantera mätvärden.
 
 Följande information samlas in:
@@ -172,6 +173,16 @@ Följande information samlas in:
 - Luftfuktighet från DHT11-sensorn.
 - Temperatur från SMHI:s API.
 - Enhetsinformation och tidsstämplar.
+
+ 
+ ### Datalagring – S3 och DynamoDB
+
+Amazon S3 används för att lagra filer, exempelvis JSON-filer och historiska sensordata.
+
+Amazon DynamoDB är en NoSQL-databas som passar för snabb lagring och hämtning av IoT-data, exempelvis temperatur och luftfuktighet.
+
+I mitt projekt används Amplify Data för dashboardens datahantering. DynamoDB har även testats separat. S3 är en möjlig lösning för framtida lagring och arkivering.
+  
 
 Data lagras strukturerat så att den kan hämtas och presenteras i dashboarden.
 
